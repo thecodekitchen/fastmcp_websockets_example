@@ -86,21 +86,21 @@ wheels = [
 
 [[package]]
 name = "fastapi"
-version = "0.110.0"
+version = "0.115.12"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "starlette" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/61/53/326977db62bf34bbdfc64acb9414e1881af7ea14e8a062fd1c11a8697616/fastapi-0.110.0.tar.gz", hash = "sha256:266775f0dcc95af9d3ef39bad55cff525329a931d5fd51930aadd4f428bf7ff3", size = 11739266, upload_time = "2024-02-24T23:21:51.479Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f4/55/ae499352d82338331ca1e28c7f4a63bfd09479b16395dce38cf50a39e2c2/fastapi-0.115.12.tar.gz", hash = "sha256:1e2c2a2646905f9e83d32f04a3f86aff4a286669c6c950ca95b5fd68c2602681", size = 295236, upload_time = "2025-03-23T22:55:43.822Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f0/f7/ea860cb8aa18e326f411e32ab537424690a53db20de6bad73d70da611fae/fastapi-0.110.0-py3-none-any.whl", hash = "sha256:87a1f6fb632a218222c5984be540055346a8f5d8a68e8f6fb647b1dc9934de4b", size = 92066, upload_time = "2024-02-24T23:21:47.794Z" },
+    { url = "https://files.pythonhosted.org/packages/50/b3/b51f09c2ba432a576fe63758bddc81f78f0c6309d9e5c10d194313bf021e/fastapi-0.115.12-py3-none-any.whl", hash = "sha256:e94613d6c05e27be7ffebdd6ea5f388112e5e430c8f7d6494a9d1d88d43e814d", size = 95164, upload_time = "2025-03-23T22:55:42.101Z" },
 ]
 
 [[package]]
 name = "fastmcp"
-version = "2.2.2"
+version = "2.2.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "exceptiongroup" },
@@ -112,9 +112,9 @@ dependencies = [
     { name = "typer" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/77/73/4d47c17d05054d52f87617cbd6b8e117dc156e6566b2e09e32f9516fb6b2/fastmcp-2.2.2.tar.gz", hash = "sha256:b0a49361844df42320c2f29470ec582bc67e98a1c06c40bc18cb9ed8838f0f02", size = 927108, upload_time = "2025-04-23T20:14:13.906Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ec/c2/5a156b21cb846811f694e75e39ec434e6b58cc6067a76dce4d9ad1da8aed/fastmcp-2.2.3.tar.gz", hash = "sha256:15d1ff4b469a02df4c028500a7592c4e44c3259ac01b6222145fbf634edde2b8", size = 928509, upload_time = "2025-04-25T01:08:41.265Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/11/a1/b998c46538f2e5f8e96a4e516545644cc696619798ac8b43af2bc03402a5/fastmcp-2.2.2-py3-none-any.whl", hash = "sha256:7f53ad3e48de32f9c4f4d74e211da5693d47baa285b5bcc7874659422e263502", size = 83180, upload_time = "2025-04-23T20:14:12.818Z" },
+    { url = "https://files.pythonhosted.org/packages/04/38/a223b68d3e93c8b5cd40497e288268b91fa4b67cdd022b4289b1eaf79f53/fastmcp-2.2.3-py3-none-any.whl", hash = "sha256:ee2eeef9a4d3d7a3f2d99d16f3fba0f03056e91835bc13bd8974e1a2a4ce8069", size = 83224, upload_time = "2025-04-25T01:08:39.772Z" },
 ]
 
 [[package]]
@@ -124,6 +124,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "fastmcp" },
+    { name = "mcpsock" },
     { name = "starlette" },
     { name = "uvicorn", extra = ["standard"] },
     { name = "websockets" },
@@ -141,9 +142,10 @@ requires-dist = [
     { name = "black", marker = "extra == 'dev'", specifier = ">=23.0.0,<24.0.0" },
     { name = "fastapi", specifier = ">=0.110.0,<0.116.0" },
     { name = "fastmcp", specifier = ">=2.2.0,<2.3.0" },
+    { name = "mcpsock", specifier = ">=0.1.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0.0,<8.0.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.0.270,<0.1.0" },
-    { name = "starlette", specifier = ">=0.31.0,<0.37.0" },
+    { name = "starlette", specifier = ">=0.46.2" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.27.0,<0.35.0" },
     { name = "websockets", specifier = ">=12.0,<16.0" },
 ]
@@ -264,6 +266,22 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/95/d2/f587cb965a56e992634bebc8611c5b579af912b74e04eb9164bd49527d21/mcp-1.6.0.tar.gz", hash = "sha256:d9324876de2c5637369f43161cd71eebfd803df5a95e46225cab8d280e366723", size = 200031, upload_time = "2025-03-27T16:46:32.336Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/10/30/20a7f33b0b884a9d14dd3aa94ff1ac9da1479fe2ad66dd9e2736075d2506/mcp-1.6.0-py3-none-any.whl", hash = "sha256:7bd24c6ea042dbec44c754f100984d186620d8b841ec30f1b19eda9b93a634d0", size = 76077, upload_time = "2025-03-27T16:46:29.919Z" },
+]
+
+[[package]]
+name = "mcpsock"
+version = "0.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "fastapi" },
+    { name = "fastmcp" },
+    { name = "starlette" },
+    { name = "uvicorn" },
+    { name = "websockets" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7e/fa/ce392d33a5479a0ff3de3bceda10d24277eba2cf658d43dec5a3d0d9d153/mcpsock-0.1.0.tar.gz", hash = "sha256:c6890d11eec88f90c74ede6a86d3d326c5a27d461bb78fe352d5ff7b5a77a40d", size = 20794, upload_time = "2025-04-25T18:52:30.712Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/87/e9/22c64aece2d261f276d09d335aa830aaba60d9a64a444b589ee9277145b9/mcpsock-0.1.0-py3-none-any.whl", hash = "sha256:574a7396b5374c24c791b205df1f03ba9ead63f260dd4de733ff69b10f3e9043", size = 13451, upload_time = "2025-04-25T18:52:29.243Z" },
 ]
 
 [[package]]
@@ -533,14 +551,14 @@ wheels = [
 
 [[package]]
 name = "starlette"
-version = "0.36.3"
+version = "0.46.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/be/47/1bba49d42d63f4453f0a64a20acbf2d0bd2f5a8cde6a166ee66c074a08f8/starlette-0.36.3.tar.gz", hash = "sha256:90a671733cfb35771d8cc605e0b679d23b992f8dcfad48cc60b38cb29aeb7080", size = 2842113, upload_time = "2024-02-04T18:16:24.95Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ce/20/08dfcd9c983f6a6f4a1000d934b9e6d626cff8d2eeb77a89a68eef20a2b7/starlette-0.46.2.tar.gz", hash = "sha256:7f7361f34eed179294600af672f565727419830b54b7b084efe44bb82d2fccd5", size = 2580846, upload_time = "2025-04-13T13:56:17.942Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/eb/f7/372e3953b6e6fbfe0b70a1bb52612eae16e943f4288516480860fcd4ac41/starlette-0.36.3-py3-none-any.whl", hash = "sha256:13d429aa93a61dc40bf503e8c801db1f1bca3dc706b10ef2434a36123568f044", size = 71481, upload_time = "2024-02-04T18:16:21.392Z" },
+    { url = "https://files.pythonhosted.org/packages/8b/0c/9d30a4ebeb6db2b25a841afbb80f6ef9a854fc3b41be131d249a977b4959/starlette-0.46.2-py3-none-any.whl", hash = "sha256:595633ce89f8ffa71a015caed34a5b2dc1c0cdb3f0f1fbd1e69339cf2abeec35", size = 72037, upload_time = "2025-04-13T13:56:16.21Z" },
 ]
 
 [[package]]

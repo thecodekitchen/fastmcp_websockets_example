@@ -1,63 +1,131 @@
 """
-FastMCP WebSocket Client
+FastMCP Client Example
 
-This client connects to a FastMCP WebSocket Gateway using FastMCP's
-built-in WSTransport and interacts with the composed MCP server system.
+This example demonstrates how to use the standalone FastMCP client
+to interact with a FastMCP server, calling tools, resources, and prompts.
 """
 
-from fastmcp import Client
-from fastmcp.client.transports import WSTransport
 import asyncio
 import logging
+import sys
+from mcpsock import WebSocketClient
 
 # Setup logging
-logging.basicConfig(level=logging.DEBUG)
-
-# Connect to our WebSocket endpoint
-transport = WSTransport("ws://localhost:8765/ws")  # The endpoint we defined in our gateway
-client = Client(transport)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
+logger = logging.getLogger("client_example")
 
 async def main():
-    print("Starting client...")
-    async with client:
-        print(f"Client connected: {client.is_connected()}")
-        
-        # Add a small delay to ensure connection is established
-        await asyncio.sleep(1)
-        
+    """Run the client example"""
+    logger.info("Starting FastMCP client example...")
+    
+    # Configure server URL
+    server_url = "ws://localhost:8765/ws"
+    
+    # Connect to the server
+    async with WebSocketClient(server_url) as client:
         try:
-            # List all available tools
-            print("Listing tools...")
-            tools = await client.list_tools()
-            print(f"Available tools: {tools}")
+            # First, let's discover what's available on the server
+            await discover_capabilities(client)
             
-            # Call the data server's query_data tool
-            if any(tool.name == "/data/query_data" for tool in tools):
-                print("Calling data query tool...")
-                result = await client.call_tool("/data/query_data", {"query": "example query"})
-                print(f"Data query result: {result}")
-            else:
-                print("The data query tool was not found.")
+            # Example of calling tools
+            await call_tool_examples(client)
             
-            # Call the chat server's send_message tool
-            if any(tool.name == "/chat/send_message" for tool in tools):
-                print("Calling chat message tool...")
-                result = await client.call_tool("/chat/send_message", {
-                    "message": "Hello from WebSocket client!",
-                    "channel": "general"
-                })
-                print(f"Chat message result: {result}")
-            else:
-                print("The chat message tool was not found.")
+            # Example of accessing resources
+            await access_resource_examples(client)
             
-            # Keep the connection alive for a moment
-            print("Waiting for 5 seconds to ensure all responses are received...")
-            await asyncio.sleep(5)
+            # Example of using prompts
+            await use_prompt_examples(client)
             
         except Exception as e:
-            print(f"Error during client operations: {str(e)}")
+            logger.error(f"Error in client example: {str(e)}")
             import traceback
             traceback.print_exc()
 
+async def discover_capabilities(client: WebSocketClient):
+    """Discover available tools, resources, and prompts on the server"""
+    logger.info("Discovering server capabilities...")
+    
+    # List available tools
+    tools = await client.list_tools()
+    logger.info(f"Found {len(tools)} tools:")
+    for tool in tools:
+        logger.info(f"  - {tool.name}: {tool.description}")
+    
+    # List available resources
+    resources = await client.list_resources()
+    logger.info(f"Found {len(resources)} resources:")
+    for resource in resources:
+        logger.info(f"  - {resource.name}: {resource.description}")
+    
+    # List available prompts
+    prompts = await client.list_prompts()
+    logger.info(f"Found {len(prompts)} prompts:")
+    for prompt in prompts:
+        logger.info(f"  - {prompt.name}: {prompt.description}")
+
+async def call_tool_examples(client: WebSocketClient):
+    """Examples of calling different tools"""
+    logger.info("Running tool examples...")
+    
+    # Example 1: Query data
+    query_result = await client.call_tool("/tools/data/query_data", {
+        "query": "sales data for Q1 2024"
+    })
+    logger.info(f"Data query result: {query_result}")
+    
+    # Example 2: Send a chat message
+    message_result = await client.call_tool("/tools/chat/send_message", {
+        "message": "Hello from the client example!",
+        "channel": "general"
+    })
+    logger.info(f"Message result: {message_result}")
+
+async def access_resource_examples(client: WebSocketClient):
+    """Examples of accessing different resources"""
+    logger.info("Running resource examples...")
+    
+    # Example 1: Get sample dataset as JSON
+    json_data = await client.get_resource("/resources/data/sample_dataset", {
+        "format": "json"
+    })
+    logger.info(f"Sample dataset (JSON): {json_data}")
+    
+    # Example 2: Get sample dataset as CSV
+    csv_data = await client.get_resource("/resources/data/sample_dataset", {
+        "format": "csv"
+    })
+    logger.info(f"Sample dataset (CSV): {csv_data}")
+    
+    # Example 3: Get list of available models
+    models = await client.get_resource("/resources/models/list")
+    logger.info(f"Available models: {models}")
+
+async def use_prompt_examples(client: WebSocketClient):
+    """Examples of using different prompts"""
+    logger.info("Running prompt examples...")
+    
+    # Example 1: Generate text using a template
+    generated_text = await client.call_prompt("/prompts/generate/text", {
+        "template": "Write a short summary about {{topic}}.",
+        "variables": {
+            "topic": "FastMCP protocol"
+        }
+    })
+    logger.info(f"Generated text: {generated_text}")
+    
+    # Example 2: Use chat completion
+    chat_result = await client.call_prompt("/prompts/chat/complete", {
+        "system": "You are a helpful assistant that specializes in APIs.",
+        "messages": [
+            {"role": "user", "content": "What are the benefits of using WebSockets for API communication?"}
+        ]
+    })
+    logger.info(f"Chat completion result: {chat_result}")
+
 if __name__ == "__main__":
+    # Run the example
     asyncio.run(main())
